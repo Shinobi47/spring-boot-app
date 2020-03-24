@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-		<property name="host.name" value="BENAWS"/>
-		<property name="my.microservice.name" value="spring-boot-app"/>
 
+	<!--****************************************************** VARIABLES ****************************************************** -->
+	
+	<property name="host.name" value="BENAWS"/>
+	<property name="my.microservice.name" value="spring-boot-app"/>
 
+	<!--****************************************************** Appenders ****************************************************** -->
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -41,7 +44,7 @@
 		<url>https://search-benayed-elasticsearch-7psthee43n3satdb5la4bfgm7y.us-east-2.es.amazonaws.com/_bulk
 		</url>
 		<index>logs-%date{yyyy-MM-dd}</index>
-		<type>tester</type>
+		<type>_doc</type>
 		<loggerName>es-logger</loggerName> <!-- optional -->
 		<errorLoggerName>es-error-logger</errorLoggerName> <!-- optional -->
 		<connectTimeout>30000</connectTimeout> <!-- optional (in ms, default 30000) -->
