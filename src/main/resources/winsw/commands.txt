@@ -1,0 +1,4 @@
+winsw-2.4.0.exe install => install the windows service
+winsw-2.4.0.exe uninstall => uninstall the windows service
+winsw-2.4.0.exe start => start the windows service
+winsw-2.4.0.exe stop => stop the windows service
