@@ -1,17 +1,22 @@
 
 package com.benayed.app.controller;
 
+import java.security.Principal;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.benayed.app.dto.ProductDto;
+import com.benayed.app.entity.UserProfileEntity;
+import com.benayed.app.repository.UserProfileRepository;
 import com.benayed.app.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +27,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ApplicationController {
 
 	private ProductService productService;
+	
+	
+	@Autowired
+	private UserProfileRepository userProfileRepository;
 
-	public ApplicationController(ProductService productService) {
+	public ApplicationController(ProductService productService, UserProfileRepository userProfileRepository) {
 		this.productService = productService;
+		this.userProfileRepository = userProfileRepository;
+		
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ROOT')")
 	@GetMapping(value = "/products")
 	public ResponseEntity<?> getProducts() {
 		
@@ -69,6 +79,32 @@ public class ApplicationController {
 		log.info("Random number generated : " + random);
 		
 		return "radom number generated and logged : " + random;
+	}
+	
+	@PreAuthorize("hasRole('ROOT')")
+	@GetMapping(value = "/users")
+	public List<UserProfileEntity> repos() {
+		return userProfileRepository.findAll();
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_ROOT')")
+	@GetMapping(value = "/principal")
+	public Principal retrievePrincipal(Principal principal) {
+		log.info(SecurityContextHolder.getContext().getAuthentication().getName());
+		return principal;
+	}
+	
+	@PreAuthorize("isTrue()")
+	@GetMapping(value = "/true")
+	public String accessible() {
+		return "You can access this method";
+	}
+	
+	@PreAuthorize("isFalse()")
+	@GetMapping(value = "/false")
+	public String inaccessible() {
+		return "You cannot access this method, how the hell did you get here ?";
+
 	}
 	
 }

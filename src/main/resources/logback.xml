@@ -41,7 +41,8 @@
 
 	<appender name="ELASTIC"
 		class="com.internetitem.logback.elasticsearch.ElasticsearchAppender">
-		<url>https://search-benayed-elasticsearch-7psthee43n3satdb5la4bfgm7y.us-east-2.es.amazonaws.com/_bulk
+		<url>none
+<!-- 		https://search-benayed-elasticsearch-7psthee43n3satdb5la4bfgm7y.us-east-2.es.amazonaws.com/_bulk -->
 		</url>
 		<index>logs-%date{yyyy-MM-dd}</index>
 		<type>_doc</type>
@@ -107,6 +108,6 @@
 	<root level="INFO">
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="ELASTIC" />
+<!-- 		<appender-ref ref="ELASTIC" /> -->
 	</root>
 </configuration>
