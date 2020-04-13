@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
@@ -15,8 +13,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-@RunWith(SpringRunner.class)
 
+@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SecurityExpressionMethodTest {
 
@@ -26,11 +24,11 @@ public class SecurityExpressionMethodTest {
 	@Test
 	public void givenUserWithROOTRight_whenROOTprotectedEndpointIsCalled_ThenOK() {
 		//Arrange
-		User userWithRootRights = new User("Haytam", "123456");
+		User userWithRootRight = new User("Haytam", "123456");
 		String endpointRequiringROOTright = "/api/v1/users";
 		
 		//Act
-	    Response response = givenAuth(userWithRootRights).port(port).get(endpointRequiringROOTright);
+	    Response response = givenAuth(userWithRootRight).port(port).get(endpointRequiringROOTright);
 
 		//Assert
 	    Assertions.assertThat(response.getStatusCode()).isEqualTo(200);
@@ -39,11 +37,11 @@ public class SecurityExpressionMethodTest {
 	@Test
 	public void givenUserWithUSERRight_whenROOTprotectedEndpointIsCalled_Then403() {
 		//Arrange
-		User userWitgUSERRights = new User("user1", "123456");
+		User userWithUSERRight = new User("user1", "123456");
 		String endpointRequiringROOTright = "/api/v1/users";
 		
 		//Act
-	    Response response = givenAuth(userWitgUSERRights).port(port).get(endpointRequiringROOTright);
+	    Response response = givenAuth(userWithUSERRight).port(port).get(endpointRequiringROOTright);
 
 		//Assert
 	    Assertions.assertThat(response.getStatusCode()).isEqualTo(403);
